@@ -1,3 +1,6 @@
 fn main() {
-    println!("Hello, world!");
+    let input = include_str!("example");
+    input.lines().for_each(|line| {
+        println!("{}", line);
+    });
 }
