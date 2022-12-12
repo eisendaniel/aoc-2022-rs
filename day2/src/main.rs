@@ -39,7 +39,7 @@ impl From<&str> for Hand {
 }
 
 impl Hand {
-    fn vs(&self, other: &Hand) -> u64 {
+    fn vs(&self, other: &Hand) -> usize {
         match (self, other) {
             (Rock, Paper) | (Paper, Scissors) | (Scissors, Rock) => 0, //loss
             (Rock, Rock) | (Paper, Paper) | (Scissors, Scissors) => 3, //draw
@@ -61,7 +61,7 @@ impl Hand {
         }
     }
 }
-fn part1(input: &str) -> u64 {
+fn part1(input: &str) -> usize {
     input
         .lines()
         .map(|round| {
@@ -69,12 +69,12 @@ fn part1(input: &str) -> u64 {
             let their_hand: Hand = hands.next().unwrap().into();
             let our_hand: Hand = hands.next().unwrap().into();
 
-            our_hand as u64 + our_hand.vs(&their_hand)
+            our_hand as usize + our_hand.vs(&their_hand)
         })
         .sum()
 }
 
-fn part2(input: &str) -> u64 {
+fn part2(input: &str) -> usize {
     input
         .lines()
         .map(|round| {
@@ -87,7 +87,7 @@ fn part2(input: &str) -> u64 {
                 Draw => their_hand,
                 Win => their_hand.weakness(),
             };
-            (result as u64) + (our_hand as u64)
+            (result as usize) + (our_hand as usize)
         })
         .sum()
 }
