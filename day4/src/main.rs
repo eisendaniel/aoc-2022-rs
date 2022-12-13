@@ -8,19 +8,48 @@ const _EXAMPLE: &str = "2-4,6-8
 6-6,4-6
 2-6,4-8";
 
-fn overlaps(a: RangeInclusive<u8>, b: RangeInclusive<u8>) -> bool {
-    
-    true
+fn redundant_range(a: &RangeInclusive<u8>, b: &RangeInclusive<u8>) -> bool {
+    a.start() <= b.start() && a.end() >= b.end() || b.start() <= a.start() && b.end() >= a.end()
+}
+
+fn overlaps(a: &RangeInclusive<u8>, b: &RangeInclusive<u8>) -> bool {
+    a.start().max(b.start()) <= a.end().min(b.end())
 }
 
 fn part1(input: &str) -> usize {
-    input.lines().map(|pair| {
-        let (a, b) = pair.split_once(',').unwrap();
-    });
-    0
+    input
+        .lines()
+        .map(|pair| {
+            //"2-4,6-8"
+            let (a, b) = pair.split_once(',').unwrap(); //a:"2-4" b:"6-8"
+            let (a_s, a_e) = a.split_once('-').unwrap();
+            let (b_s, b_e) = b.split_once('-').unwrap();
+            (
+                a_s.parse().unwrap()..=a_e.parse().unwrap(),
+                b_s.parse().unwrap()..=b_e.parse().unwrap(),
+            )
+        })
+        .filter(|(a, b)| redundant_range(a, b))
+        .count()
+}
+fn part2(input: &str) -> usize {
+    input
+        .lines()
+        .map(|pair| {
+            //"2-4,6-8"
+            let (a, b) = pair.split_once(',').unwrap(); //a:"2-4" b:"6-8"
+            let (a_s, a_e) = a.split_once('-').unwrap();
+            let (b_s, b_e) = b.split_once('-').unwrap();
+            (
+                a_s.parse().unwrap()..=a_e.parse().unwrap(),
+                b_s.parse().unwrap()..=b_e.parse().unwrap(),
+            )
+        })
+        .filter(|(a, b)| overlaps(a, b))
+        .count()
 }
 
 fn main() {
-    println!("Part 1: {}", part1(_EXAMPLE));
-    // println!("Part 1: {}", part2(_INPUT));
+    println!("Part 1: {}", part1(_INPUT));
+    println!("Part 1: {}", part2(_INPUT));
 }
