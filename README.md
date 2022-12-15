@@ -18,6 +18,6 @@ fn part2(input: &str) -> usize {
 
 fn main() {
     println!("Part 1: {}", part1(_EXAMPLE));
-    println!("Part 1: {}", part2(_EXAMPLE));
+    println!("Part 2: {}", part2(_EXAMPLE));
 }
 ```
